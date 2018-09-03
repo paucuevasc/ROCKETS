@@ -73,7 +73,10 @@ function rocketDecelerator(rocket){
 }
 
 function dataShow(rocket){
-    rocketData=document.querySelector(".rocketData");
+    var search="."+rocket.id;
+    rocketData=document.querySelector("#"+rocket.id);
+    console.log("."+rocket.id)
+    console.log(rocketData);
     rocketData.innerHTML="NAME: "+rocket.name +"<br>"+ "nº propellers: " +rocket.nPropellers +"<br>"+ "actual Pot: "+rocket.actualPot +
     "<input id='accelerateButton' class='selectors' type='button' value='+' onclick='rocketAccelerator("+rocket.id+")'></input>"+
     "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>"+"<br>"+"<br>"+ "speed: "+ 
