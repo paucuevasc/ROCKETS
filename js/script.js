@@ -1,42 +1,81 @@
-var speed;
 
-function Rocket(name,nPropellers,actualPot,maxPot){
+function Rocket(id,name,nPropellers,actualPot,speed,maxPot){
+this.id=id;
 this.name=name;
 this.nPropellers=nPropellers;
 this.actualPot=actualPot;
+this.speed=speed;
 this.maxPot=maxPot;
 }
 
 
 //var rocket1=new Rocket("Enterprise",3);
 //console.log(rocket1);
-
+var rocket1;
+var rocket2;
 function rocketCreator(){
     var e = document.getElementById("rocketId");
-    var strRocket = e.options[e.selectedIndex].value;
-    if (strRocket==1) {
-        var rocket1=new Rocket("Enterprise",3,[0,0,0],[10,30,80]);
-        console.log(rocket1);}
-    else if (strRocket==2) {
-        var rocket1=new Rocket("Tardis",6,[0,0,0,0,0,0,],[30,40,50,50,30,10]);
-        console.log(rocket1);    
+    var valueRocket = e.options[e.selectedIndex].value;
+    var nameRocket =e.options[e.selectedIndex].innerHTML;
+    if (valueRocket==1) {
+        rocket1=new Rocket("rocket1","Enterprise",3,[0,0,0],0,[10,30,80]);
+        console.log(rocket1);
+        dataShow(rocket1);}
+    else if (valueRocket==2) {
+        rocket2=new Rocket("rocket2","Tardis",6,[0,0,0,0,0,0,],0,[30,40,50,50,30,10]);
+        console.log(rocket2);    
+        dataShow(rocket2);
     }
-    speedCalculator(rocket1);
-    dataShow(rocket1);
     
+   
 }
 
-function speedCalculator(rocket1){
+function speedCalculator(rocket){
+    
     var i=0;
-    speed=0;
-    while (i<rocket1.actualPot.length){
-        speed=speed+rocket1.actualPot[i];
+    rocket.speed=0;
+    while (i<rocket.actualPot.length){
+        rocket.speed=rocket.speed+rocket.actualPot[i];
         i++;
     }
-return speed;
+
+}
+function rocketAccelerator(rocket){
+    var i=0;
+   
+    while (i<rocket.actualPot.length){
+        if (rocket.actualPot[i]<rocket.maxPot[i]){
+            rocket.actualPot[i]=rocket.actualPot[i]+10;
+            i++;
+        }
+        else {
+            i++;
+        }
+    }
+    speedCalculator(rocket);
+    dataShow(rocket);
 }
 
-function dataShow(rocket1){
+function rocketDecelerator(rocket){
+    var i=0;
+   
+    while (i<rocket.actualPot.length){
+        if (rocket.actualPot[i]>0){
+            rocket.actualPot[i]=rocket.actualPot[i]-10;
+            i++;
+        }
+        else {
+            i++;
+        }
+    }
+    speedCalculator(rocket);
+    dataShow(rocket);
+}
+
+function dataShow(rocket){
     rocketData=document.querySelector(".rocketData");
-    rocketData.innerHTML="NAME: "+rocket1.name +"<br>"+ "nº propellers: " +rocket1.nPropellers +"<br>"+ "actual Pot: "+rocket1.actualPot +"<br>"+ "speed: "+ speed +"<br>"+"max Pot: "+rocket1.maxPot;
+    rocketData.innerHTML="NAME: "+rocket.name +"<br>"+ "nº propellers: " +rocket.nPropellers +"<br>"+ "actual Pot: "+rocket.actualPot +
+    "<input id='accelerateButton' class='selectors' type='button' value='+' onclick='rocketAccelerator("+rocket.id+")'></input>"+
+    "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>"+"<br>"+"<br>"+ "speed: "+ 
+    rocket.speed +"<br>"+"max Pot: "+rocket.maxPot;
 }
