@@ -4,38 +4,40 @@ function Rocket(id,name){
 this.id=id;
 this.name=name;
 this.propellers=new Array();
-this.accelerator=function accelerator(rocket){
+this.acceleratorCaller=function acceleratorCaller(){
     var i=0;
    
-    while (i<rocket.propellers.length){
-        if (rocket.propellers[i].actualPot<rocket.propellers[i].maxPot){
-            rocket.propellers[i].actualPot=rocket.propellers[i].actualPot+10;
-            i++;
+    while (i<this.propellers.length){
+        this.propellers[i].propellerAccelerator();
+        i++;
         }
-        else {
-            i++;
+    }
+
+this.deceleratorCaller=function deceleratorCaller(){
+    var i=0;
+   
+    while (i<this.propellers.length){
+        this.propellers[i].propellerDecelerator();
+        i++;
         }
     }
 }
-this.decelerator=function decelerator(rocket){
-    var i=0;
-   
-    while (i<rocket.propellers.length){
-        if (rocket.propellers[i].actualPot>0){
-            rocket.propellers[i].actualPot=rocket.propellers[i].actualPot-10;
-            i++;
-        }
-        else {
-            i++;
-        }
-    }
-}
-}
+
 
 function Propeller(id,actualPot,maxPot){
     this.id=id;
     this.actualPot=actualPot;
     this.maxPot=maxPot;
+    this.propellerAccelerator=function propellerAccelerator(){
+        if (this.actualPot<this.maxPot){
+            this.actualPot=this.actualPot+10;
+        }
+    }
+    this.propellerDecelerator=function propellerDecelerator(){
+        if (this.actualPot>0){
+            this.actualPot=this.actualPot-10;
+        }
+    }
 }
 
 /*function addPropeller(rocket){
@@ -112,13 +114,13 @@ function speedCalculator(rocket){
     return speed;
 }
 function rocketAccelerator(rocket){
-    rocket.accelerator(rocket);
+    rocket.acceleratorCaller();
     speedCalculator(rocket);
     dataShow(rocket);
 }
 
 function rocketDecelerator(rocket){
-    rocket.decelerator(rocket);
+    rocket.deceleratorCaller();
     speedCalculator(rocket);
     dataShow(rocket);
 }
