@@ -1,0 +1,12 @@
+.data{
+    background-color: darkslategrey;
+    border-left-width: 3px;
+    border-left-color: darkturquoise;
+    border-radius: 20px;
+    padding: 20px;
+    margin-right: 80%;
+    margin-bottom: 20px;
+    font-style: normal;
+    color: cornsilk;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
