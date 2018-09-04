@@ -82,3 +82,35 @@ function dataShow(rocket){
     "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>"+"<br>"+"<br>"+ "speed: "+ 
     rocket.speed +"<br>"+"max Pot: "+rocket.maxPot;
 }
+function demoSetup(){
+    rocket1=new Rocket("rocket1","Enterprise",3,[0,0,0],0,[10,30,80]);
+    console.log(rocket1);
+    dataShow(rocket1);
+
+    rocket2=new Rocket("rocket2","Tardis",6,[0,0,0,0,0,0,],0,[30,40,50,50,30,10]);
+    console.log(rocket2);    
+    dataShow(rocket2);
+
+    let i=0;
+    while(i<3){
+        setTimeout(rocketAccelerator(rocket1),50000);
+        setTimeout(rocketAccelerator(rocket2),50000);
+        i++;
+    }
+    i=0;
+    while(i<5){
+        setTimeout(rocketDecelerator(rocket1),50000);
+        i++;
+    }
+    i=0;
+    while(i<7){
+        setTimeout(rocketDecelerator(rocket2),50000);
+        i++;
+    }
+    i=0;
+    while(i<15){
+        setTimeout(rocketAccelerator(rocket1),50000);
+        setTimeout(rocketAccelerator(rocket2),50000);
+        i++;
+    }
+}
