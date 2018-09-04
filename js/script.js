@@ -1,13 +1,39 @@
-
-function Rocket(id,name,nPropellers,actualPot,speed,maxPot){
+var speed;
+function Rocket(id,name){
 this.id=id;
 this.name=name;
-this.nPropellers=nPropellers;
-this.actualPot=actualPot;
-this.speed=speed;
-this.maxPot=maxPot;
+this.propellers=new Array();
 }
 
+function Propeller(id,actualPot,maxPot){
+    this.id=id;
+    this.actualPot=actualPot;
+    this.maxPot=maxPot;
+}
+
+/*function addPropeller(rocket){
+    var e = document.getElementById("rocketId");
+    var valueRocket = e.options[e.selectedIndex].value;
+//var propeller=new Propeller(1,0,10);
+    if (valueRocket==1){
+        rocket.propeller=({id:1,actualPot:0,maxPot:10},
+            {id:2,actualPot:0,maxPot:10},
+            {id:3,actualPot:0,maxPot:10});
+    }
+    else if (valueRocket==2) {    
+        rocket.propeller=({id:1,actualPot:0,maxPot:10},
+            {id:2,actualPot:0,maxPot:10},
+            {id:3,actualPot:0,maxPot:10},        
+            {id:4,actualPot:0,maxPot:10},
+            {id:5,actualPot:0,maxPot:10}, 
+            {id:6,actualPot:0,maxPot:10});       
+    }
+
+}*/
+
+function addPropeller(rocket,propeller){
+    rocket.propellers.push(propeller);
+}
 
 //var rocket1=new Rocket("Enterprise",3);
 //console.log(rocket1);
@@ -18,11 +44,29 @@ function rocketCreator(){
     var valueRocket = e.options[e.selectedIndex].value;
     var nameRocket =e.options[e.selectedIndex].innerHTML;
     if (valueRocket==1) {
-        rocket1=new Rocket("rocket1","Enterprise",3,[0,0,0],0,[10,30,80]);
+        rocket1=new Rocket("rocket1","Enterprise");
+        var prop=new Propeller(0,0,10);
+        addPropeller(rocket1,prop);
+        prop=new Propeller(1,0,30);
+        addPropeller(rocket1,prop);
+        prop=new Propeller(2,0,80);
+        addPropeller(rocket1,prop);
         console.log(rocket1);
         dataShow(rocket1);}
     else if (valueRocket==2) {
-        rocket2=new Rocket("rocket2","Tardis",6,[0,0,0,0,0,0,],0,[30,40,50,50,30,10]);
+        rocket2=new Rocket("rocket2","Tardis");
+        var prop=new Propeller(0,0,30);
+        addPropeller(rocket2,prop);
+        prop=new Propeller(1,0,40);
+        addPropeller(rocket2,prop);
+        prop=new Propeller(2,0,50);
+        addPropeller(rocket2,prop);
+        prop=new Propeller(3,0,50);
+        addPropeller(rocket2,prop);
+        prop=new Propeller(4,0,30);
+        addPropeller(rocket2,prop);
+        prop=new Propeller(5,0,10);
+        addPropeller(rocket2,prop);
         console.log(rocket2);    
         dataShow(rocket2);
     }
@@ -33,19 +77,19 @@ function rocketCreator(){
 function speedCalculator(rocket){
     
     var i=0;
-    rocket.speed=0;
-    while (i<rocket.actualPot.length){
-        rocket.speed=rocket.speed+rocket.actualPot[i];
+    speed=0;
+    while (i<rocket.propellers.length){
+        speed=speed+rocket.propellers[i].actualPot;
         i++;
     }
-
+    return speed;
 }
 function rocketAccelerator(rocket){
     var i=0;
    
-    while (i<rocket.actualPot.length){
-        if (rocket.actualPot[i]<rocket.maxPot[i]){
-            rocket.actualPot[i]=rocket.actualPot[i]+10;
+    while (i<rocket.propellers.length){
+        if (rocket.propellers[i].actualPot<rocket.propellers[i].maxPot){
+            rocket.propellers[i].actualPot=rocket.propellers[i].actualPot+10;
             i++;
         }
         else {
@@ -59,9 +103,9 @@ function rocketAccelerator(rocket){
 function rocketDecelerator(rocket){
     var i=0;
    
-    while (i<rocket.actualPot.length){
-        if (rocket.actualPot[i]>0){
-            rocket.actualPot[i]=rocket.actualPot[i]-10;
+    while (i<rocket.propellers.length){
+        if (rocket.propellers[i].actualPot>0){
+            rocket.propellers[i].actualPot=rocket.propellers[i].actualPot-10;
             i++;
         }
         else {
@@ -75,26 +119,26 @@ function rocketDecelerator(rocket){
 function dataShow(rocket){
     var search="."+rocket.id;
     rocketData=document.querySelector("#"+rocket.id);
-    console.log("."+rocket.id)
-    console.log(rocketData);
-    rocketData.innerHTML="NAME: "+rocket.name +"<br>"+ "nº propellers: " +rocket.nPropellers +"<br>"+ "actual Pot: "+rocket.actualPot +
+    console.log(rocket1.propeller);
+    rocketData.innerHTML="NAME: "+rocket.name +"<br>"+"actual Pot: ";
+    let i=0;
+    while (i<rocket.propellers.length){
+        rocketData.innerHTML=rocketData.innerHTML+"Pr"+(rocket.propellers[i].id+1)+": "+rocket.propellers[i].actualPot+"/"+rocket.propellers[i].maxPot+"<br>";
+        i++;
+    }
+    speedCalculator(rocket);
+    rocketData.innerHTML=rocketData.innerHTML+"Speed: "+speed + "<br>"+
+    
     "<input id='accelerateButton' class='selectors' type='button' value='+' onclick='rocketAccelerator("+rocket.id+")'></input>"+
-    "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>"+"<br>"+"<br>"+ "speed: "+ 
-    rocket.speed +"<br>"+"max Pot: "+rocket.maxPot;
+    "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>";
 }
 function demoSetup(){
-    rocket1=new Rocket("rocket1","Enterprise",3,[0,0,0],0,[10,30,80]);
-    console.log(rocket1);
-    dataShow(rocket1);
 
-    rocket2=new Rocket("rocket2","Tardis",6,[0,0,0,0,0,0,],0,[30,40,50,50,30,10]);
-    console.log(rocket2);    
-    dataShow(rocket2);
 
     let i=0;
     while(i<3){
-        setTimeout(rocketAccelerator(rocket1),50000);
-        setTimeout(rocketAccelerator(rocket2),50000);
+        setTimeout(rocketAccelerator(rocket1),500);
+        setTimeout(rocketAccelerator(rocket2),500);
         i++;
     }
     i=0;
