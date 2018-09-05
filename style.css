@@ -4,9 +4,17 @@
     border-left-color: darkturquoise;
     border-radius: 20px;
     padding: 20px;
-    margin-right: 80%;
+    
     margin-bottom: 20px;
     font-style: normal;
     color: cornsilk;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+#UI{
+    margin-top: 20px;
+    margin-left: 20px;
+    position:absolute;
+    margin-right: 80%;
+}
+canvas {
+     width: 100%; height: 100% }

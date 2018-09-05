@@ -1,169 +1,183 @@
 var speed;
+var rocket1;
+var rocket2;
 
-function Rocket(id,name){
-this.id=id;
-this.name=name;
-this.propellers=new Array();
-this.acceleratorCaller=function acceleratorCaller(){
-    var i=0;
-   
-    while (i<this.propellers.length){
-        this.propellers[i].propellerAccelerator();
-        i++;
+function Rocket(id, name) {
+    this.id = id;
+    this.name = name;
+    this.propellers = new Array();
+    this.acceleratorCaller = function acceleratorCaller() {
+        var i = 0;
+        var value = document.querySelector("#accelerationValue"+this.id).value;
+        if (isNaN(value) == true) {
+            value = 10;
+        }
+        while (i < this.propellers.length) {
+            this.propellers[i].propellerAccelerator(value);
+            i++;
         }
     }
 
-this.deceleratorCaller=function deceleratorCaller(){
-    var i=0;
-   
-    while (i<this.propellers.length){
-        this.propellers[i].propellerDecelerator();
-        i++;
+    this.deceleratorCaller = function deceleratorCaller() {
+        var i = 0;
+        var value = document.querySelector("#accelerationValue"+this.id).value;
+        if (isNaN(value) == true) {
+            value = 10;
+        }
+        while (i < this.propellers.length) {
+            this.propellers[i].propellerDecelerator(value);
+            i++;
+        }
+    }
+}
+
+
+function Propeller(id, actualPot, maxPot) {
+    this.id = id;
+    this.actualPot = actualPot;
+    this.maxPot = maxPot;
+    this.propellerAccelerator = function propellerAccelerator(value) {
+
+        if (this.actualPot < this.maxPot) {
+            this.actualPot = this.actualPot + 1 * value;
+        }
+        else if (this.actualPot > this.maxPot) {
+            this.actualPot = this.maxPot;
+        }
+    }
+
+
+
+    this.propellerDecelerator = function propellerDecelerator(value) {
+        if (this.actualPot > 0) {
+            this.actualPot = this.actualPot - 1 * value;
+        }
+        if (this.actualPot < 0) {
+            this.actualPot = 0;
         }
     }
 }
 
 
-function Propeller(id,actualPot,maxPot){
-    this.id=id;
-    this.actualPot=actualPot;
-    this.maxPot=maxPot;
-    this.propellerAccelerator=function propellerAccelerator(){
-        if (this.actualPot<this.maxPot){
-            this.actualPot=this.actualPot+10;
-        }
-    }
-    this.propellerDecelerator=function propellerDecelerator(){
-        if (this.actualPot>0){
-            this.actualPot=this.actualPot-10;
-        }
-    }
-}
 
-/*function addPropeller(rocket){
-    var e = document.getElementById("rocketId");
-    var valueRocket = e.options[e.selectedIndex].value;
-//var propeller=new Propeller(1,0,10);
-    if (valueRocket==1){
-        rocket.propeller=({id:1,actualPot:0,maxPot:10},
-            {id:2,actualPot:0,maxPot:10},
-            {id:3,actualPot:0,maxPot:10});
-    }
-    else if (valueRocket==2) {    
-        rocket.propeller=({id:1,actualPot:0,maxPot:10},
-            {id:2,actualPot:0,maxPot:10},
-            {id:3,actualPot:0,maxPot:10},        
-            {id:4,actualPot:0,maxPot:10},
-            {id:5,actualPot:0,maxPot:10}, 
-            {id:6,actualPot:0,maxPot:10});       
-    }
-
-}*/
-
-function addPropeller(rocket,propeller){
+function addPropeller(rocket, propeller) {
     rocket.propellers.push(propeller);
 }
 
-//var rocket1=new Rocket("Enterprise",3);
-//console.log(rocket1);
-var rocket1;
-var rocket2;
-function rocketCreator(){
-    var e = document.getElementById("rocketId");
-    var valueRocket = e.options[e.selectedIndex].value;
-    var nameRocket =e.options[e.selectedIndex].innerHTML;
-    if (valueRocket==1) {
-        rocket1=new Rocket("rocket1","Enterprise");
-        var prop=new Propeller(0,0,10);
-        addPropeller(rocket1,prop);
-        prop=new Propeller(1,0,30);
-        addPropeller(rocket1,prop);
-        prop=new Propeller(2,0,80);
-        addPropeller(rocket1,prop);
-        console.log(rocket1);
-        dataShow(rocket1);}
-    else if (valueRocket==2) {
-        rocket2=new Rocket("rocket2","Tardis");
-        var prop=new Propeller(0,0,30);
-        addPropeller(rocket2,prop);
-        prop=new Propeller(1,0,40);
-        addPropeller(rocket2,prop);
-        prop=new Propeller(2,0,50);
-        addPropeller(rocket2,prop);
-        prop=new Propeller(3,0,50);
-        addPropeller(rocket2,prop);
-        prop=new Propeller(4,0,30);
-        addPropeller(rocket2,prop);
-        prop=new Propeller(5,0,10);
-        addPropeller(rocket2,prop);
-        console.log(rocket2);    
-        dataShow(rocket2);
-    }
-    
-   
+function rocket1Ennable() {
+    var color = "#ff6677";
+    cubreCreator(color);
+    rocket1 = new Rocket("rocket1", "Enterprise");
+    var prop = new Propeller(0, 0, 10);
+    addPropeller(rocket1, prop);
+    prop = new Propeller(1, 0, 30);
+    addPropeller(rocket1, prop);
+    prop = new Propeller(2, 0, 80);
+    addPropeller(rocket1, prop);
+    console.log(rocket1);
+    dataShow(rocket1);
 }
 
-function speedCalculator(rocket){
-    
-    var i=0;
-    speed=0;
-    while (i<rocket.propellers.length){
-        speed=speed+rocket.propellers[i].actualPot;
+function rocket2Ennable() {
+
+    var color = "red";
+    cubreCreator(color);
+    rocket2 = new Rocket("rocket2", "Tardis");
+    var prop = new Propeller(0, 0, 30);
+    addPropeller(rocket2, prop);
+    prop = new Propeller(1, 0, 40);
+    addPropeller(rocket2, prop);
+    prop = new Propeller(2, 0, 50);
+    addPropeller(rocket2, prop);
+    prop = new Propeller(3, 0, 50);
+    addPropeller(rocket2, prop);
+    prop = new Propeller(4, 0, 30);
+    addPropeller(rocket2, prop);
+    prop = new Propeller(5, 0, 10);
+    addPropeller(rocket2, prop);
+    console.log(rocket2);
+    dataShow(rocket2);
+}
+
+function rocketCreator() {
+
+    var e = document.getElementById("rocketId");
+    var valueRocket = e.options[e.selectedIndex].value;
+    if (valueRocket == 1) {
+        rocket1Ennable();
+    }
+    else if (valueRocket == 2) {
+        rocket2Ennable();
+    }
+}
+
+function speedCalculator(rocket) {
+
+    var i = 0;
+    speed = 0;
+    while (i < rocket.propellers.length) {
+        speed = speed + rocket.propellers[i].actualPot;
         i++;
     }
     return speed;
 }
-function rocketAccelerator(rocket){
+function rocketAccelerator(rocket) {
+  
     rocket.acceleratorCaller();
     speedCalculator(rocket);
     dataShow(rocket);
 }
 
-function rocketDecelerator(rocket){
+function rocketDecelerator(rocket) {
     rocket.deceleratorCaller();
     speedCalculator(rocket);
     dataShow(rocket);
 }
 
-function dataShow(rocket){
-    var search="."+rocket.id;
-    rocketData=document.querySelector("#"+rocket.id);
-    console.log(rocket1.propeller);
-    rocketData.innerHTML="NAME: "+rocket.name +"<br>"+"actual Pot: ";
-    let i=0;
-    while (i<rocket.propellers.length){
-        rocketData.innerHTML=rocketData.innerHTML+"Pr"+(rocket.propellers[i].id+1)+": "+rocket.propellers[i].actualPot+"/"+rocket.propellers[i].maxPot+"<br>";
+function dataShow(rocket) {
+    var search = "." + rocket.id;
+    rocketData = document.querySelector("#" + rocket.id);
+    rocketData.innerHTML = "NAME: " + rocket.name + "<br>" + "actual Pot: ";
+    let i = 0;
+    while (i < rocket.propellers.length) {
+        rocketData.innerHTML = rocketData.innerHTML + "Pr" + (rocket.propellers[i].id + 1) + ": " + rocket.propellers[i].actualPot + "/" + rocket.propellers[i].maxPot + "<br>";
         i++;
     }
     speedCalculator(rocket);
-    rocketData.innerHTML=rocketData.innerHTML+"Speed: "+speed + "<br>"+
-    
-    "<input id='accelerateButton' class='selectors' type='button' value='+' onclick='rocketAccelerator("+rocket.id+")'></input>"+
-    "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator("+rocket.id+")'></input>";
+    uiShow(rocket);    
 }
-function demoSetup(){
+
+function uiShow(rocket){
+    rocketData.innerHTML = rocketData.innerHTML + "Speed: " + speed + "<br>" +
+
+    "<input id='accelerateButton' class='selectors' type='button' value='+' onclick='rocketAccelerator(" + rocket.id + ")'></input>" +
+    "<input id='accelerateButton' class='selectors' type='button' value='-' onclick='rocketDecelerator(" + rocket.id + ")'></input>" + "<br>" +
+    "<input id='accelerationValue"+rocket.id+"' class='selectors' type='text' value='acceleration value'></input>";
+
+}
+function demoSetup() {
 
 
-    let i=0;
-    while(i<3){
-        setTimeout(rocketAccelerator(rocket1),500);
-        setTimeout(rocketAccelerator(rocket2),500);
+    let i = 0;
+    while (i < 3) {
+        setTimeout(rocketAccelerator(rocket1), 500);
+        setTimeout(rocketAccelerator(rocket2), 500);
         i++;
     }
-    i=0;
-    while(i<5){
-        setTimeout(rocketDecelerator(rocket1),50000);
+    i = 0;
+    while (i < 5) {
+        setTimeout(rocketDecelerator(rocket1), 50000);
         i++;
     }
-    i=0;
-    while(i<7){
-        setTimeout(rocketDecelerator(rocket2),50000);
+    i = 0;
+    while (i < 7) {
+        setTimeout(rocketDecelerator(rocket2), 50000);
         i++;
     }
-    i=0;
-    while(i<15){
-        setTimeout(rocketAccelerator(rocket1),50000);
-        setTimeout(rocketAccelerator(rocket2),50000);
+    i = 0;
+    while (i < 15) {
+        setTimeout(rocketAccelerator(rocket1), 50000);
+        setTimeout(rocketAccelerator(rocket2), 50000);
         i++;
     }
 }
